@@ -54,7 +54,16 @@ done
 mkdir -p "$OUTPUT_DIR"
 
 # Run the batch processing
-python "${SCRIPT_DIR}/process_all_segments.py" \
+PYTHON_SCRIPT="${SCRIPT_DIR}/process_all_segments.py"
+
+# Verify the script exists
+if [ ! -f "$PYTHON_SCRIPT" ]; then
+    echo "Error: Could not find the script at $PYTHON_SCRIPT"
+    exit 1
+fi
+
+# Execute the script with full path
+python "$PYTHON_SCRIPT" \
     --data-dir "$DATA_DIR" \
     --output-dir "$OUTPUT_DIR" \
     --genotypes "$GENOTYPES" \
