@@ -1,0 +1,98 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "longitudinal-spine-analysis-pipeline"
+version = "0.1.0"
+description = "A comprehensive pipeline for tracking dendritic spines across longitudinal imaging data"
+readme = "README.md"
+requires-python = ">=3.11"
+license = {text = "MIT"}
+authors = [
+    {name = "Sergio Garcia", email = "smb2318@columbia.edu"}
+]
+classifiers = [
+    "Programming Language :: Python :: 3.11",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+# Dependencies are listed with exact versions from the current environment
+dependencies = [
+    "contourpy==1.3.1",
+    "cycler==0.12.1",
+    "fonttools==4.56.0",
+    "imageio==2.37.0",
+    "kiwisolver==1.4.8",
+    "lazy-loader==0.4",
+    "matplotlib==3.10.0",
+    "networkx==3.4.2",
+    "numpy==2.2.3",
+    "packaging==24.2",
+    "pandas==2.2.3",
+    "pillow==11.1.0",
+    "pyparsing==3.2.1",
+    "pystackreg==0.2.8",
+    "python-dateutil==2.9.0.post0",
+    "pytz==2025.1",
+    "scikit-image==0.25.2",
+    "scipy==1.15.2",
+    "seaborn==0.13.2",
+    "six==1.17.0",
+    "tifffile==2025.2.18",
+    "tqdm==4.67.1",
+    "tzdata==2025.1",
+]
+
+[project.urls]
+"Repository" = "https://github.com/sergiobgarcia/longitudinal-spine-analysis-pipeline"
+"Issues" = "https://github.com/sergiobgarcia/longitudinal-spine-analysis-pipeline/issues"
+
+[project.scripts]
+spine-analysis = "spine_tracker.run:main"
+
+[tool.setuptools]
+package-dir = {"" = "."}
+packages = ["spine_tracker"]
+
+# Black configuration for code formatting
+[tool.black]
+line-length = 88
+target-version = ["py311"]
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | _build
+  | buck-out
+  | build
+  | dist
+)/
+'''
+
+# isort configuration for import sorting
+[tool.isort]
+profile = "black"
+line_length = 88
+
+# Optional extras for development
+[project.optional-dependencies]
+test = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+]
+lint = [
+    "black>=23.0.0",
+    "isort>=5.10.0",
+    "flake8>=6.0.0",
+]
+docs = [
+    "sphinx>=6.0.0",
+    "sphinx-rtd-theme>=1.0.0",
+]
