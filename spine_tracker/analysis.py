@@ -79,7 +79,7 @@ def load_metadata(input_dir):
         print(f"No metadata file found in {input_dir}")
         return None
     
-    from metadata_handler import MetadataHandler
+    from spine_tracker.metadata_handler import MetadataHandler
     metadata_handler = MetadataHandler()
     metadata = metadata_handler.load_metadata(metadata_file)
     
@@ -293,7 +293,7 @@ def create_spine_presence_visualization(enhanced_tracks, output_path, metadata=N
     
     # Get day labels if available
     if metadata and metadata.get('frame_to_day'):
-        from metadata_handler import MetadataHandler
+        from spine_tracker.metadata_handler import MetadataHandler
         metadata_handler = MetadataHandler()
         metadata_handler.metadata = metadata
         day_labels = metadata_handler.get_day_labels()
@@ -380,7 +380,7 @@ def create_biological_classification_visualization(enhanced_tracks, output_path,
     
     # Get day labels if available
     if metadata and metadata.get('frame_to_day'):
-        from metadata_handler import MetadataHandler
+        from spine_tracker.metadata_handler import MetadataHandler
         metadata_handler = MetadataHandler()
         metadata_handler.metadata = metadata
         day_labels = metadata_handler.get_day_labels()
