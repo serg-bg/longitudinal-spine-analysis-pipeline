@@ -1,92 +1,25 @@
-# Spine Tracking Analysis Pipeline
+# Longitudinal Spine Analysis Pipeline
 
-A comprehensive pipeline for tracking dendritic spines across longitudinal imaging data. This software analyzes 2D segmentation labels from microscopy data to track dendritic spines across multiple timepoints, providing quantitative analysis of spine dynamics.
+A comprehensive pipeline for tracking dendritic spines across longitudinal imaging data.
 
-## Structure
-- `spine_tracker/`: Core Python modules for spine tracking and analysis
-- `scripts/`: Executable scripts for running the pipeline
-- `tests/`: Test cases and validation
-- `docs/`: Documentation
-- `output/`: Directory for output files (created on demand)
+## Overview
+
+This pipeline integrates spine registration, tracking, and biological classification to analyze dendritic spine dynamics across multiple timepoints.
+
+## Features
+
+- Robust image registration using StackReg algorithm with multiple passes
+- Spine tracking based on overlap and distance metrics
+- Biological classification of spines (stable, formed, eliminated, recurrent)
+- Day information preservation throughout the workflow
+- Batch processing support for multiple animals and genotypes
+- Comprehensive visualization and statistics generation
 
 ## Installation
 
-### Using UV (Recommended)
-
-This project uses UV (v0.5.24+), a fast Python package installer and resolver. To install:
-
-1. Install UV if you haven't already:
-   ```bash
-   curl -sSf https://install.ultraviolet.rs | sh
-   ```
-
-2. Clone the repository:
-   ```bash
-   git clone https://github.com/yourusername/spine-tracker.git
-   cd spine-tracker
-   ```
-
-3. Run the install script (recommended):
-   ```bash
-   ./install.sh
-   ```
-   
-   Or manually set up using UV commands:
-   ```bash
-   # Create a lockfile
-   uv lock
-   
-   # Create a virtual environment
-   uv venv
-   
-   # Install dependencies
-   uv sync
-   ```
-
-4. To run commands with UV:
-   ```bash
-   # Activate the environment
-   source .venv/bin/activate  # On Windows: .venv\Scripts\activate
-   
-   # Or run directly with UV
-   uv run -- ./run.py test
-   ```
-
-#### Development Dependencies
-
-To install development dependencies for testing, linting, or documentation:
-
-```bash
-# Install test dependencies
-uv pip install -e ".[test]"
-
-# Install linting tools
-uv pip install -e ".[lint]"
-
-# Install documentation tools
-uv pip install -e ".[docs]"
-```
-
-### Using pip
-
-Alternatively, you can use pip:
-
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/yourusername/spine-tracker.git
-   cd spine-tracker
-   ```
-
-2. Create a virtual environment and install dependencies:
-   ```bash
-   python -m venv .venv
-   source .venv/bin/activate  # On Windows: .venv\Scripts\activate
-   pip install -e .
-   ```
+See the [Installation Guide](docs/installation.md) for detailed instructions.
 
 ## Usage
-
-The pipeline can be run using the main `run.py` script:
 
 ```bash
 # Run a test on a sample segment
@@ -99,23 +32,14 @@ The pipeline can be run using the main `run.py` script:
 ./run.py dry-run
 ```
 
-For advanced usage and customization options, run:
-```bash
-./run.py --help
-```
+## Directory Structure
 
-## Data Structure
+- `spine_tracker/`: Core Python modules
+- `scripts/`: Executable scripts
+- `docs/`: Documentation
+- `output/`: Output directory (created on demand)
 
-The pipeline expects data to be organized in the following structure:
-```
-time_tracking/
-├── [genotype]/               # e.g., B6, Pol2Het, etc.
-│   ├── [animal-id]/          # e.g., 61-B6-027
-│   │   ├── [segment-folder]/ # e.g., Segment1, apical1, etc.
-│   │   │   ├── [images]      # Segmentation images with Day pattern in filename
-```
+## License
 
-## Documentation
-
-For detailed documentation, see [docs/README.md](docs/README.md).
+MIT License
 
