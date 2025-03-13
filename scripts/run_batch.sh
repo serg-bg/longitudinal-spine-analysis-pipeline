@@ -15,7 +15,7 @@ source "${BASE_DIR}/../.venv/bin/activate"
 DATA_DIR="${BASE_DIR}/../time_tracking"
 OUTPUT_DIR="${BASE_DIR}/output/batch"
 GENOTYPES="B6"
-ANIMALS="61-B6-027"
+ANIMALS=""  # Default to all animals
 STACKREG_PASSES=30
 QUALITY_THRESHOLD=0.85
 
@@ -77,12 +77,23 @@ if [ ! -f "$PYTHON_SCRIPT" ]; then
 fi
 
 # Execute the script with full path
-python "$PYTHON_SCRIPT" \
-    --data-dir "$DATA_DIR" \
-    --output-dir "$OUTPUT_DIR" \
-    --genotypes "$GENOTYPES" \
-    --animals "$ANIMALS" \
-    --stackreg-passes "$STACKREG_PASSES" \
-    --quality-threshold "$QUALITY_THRESHOLD"
+# Build command based on provided parameters
+CMD=("python" "$PYTHON_SCRIPT" 
+     "--data-dir" "$DATA_DIR" 
+     "--output-dir" "$OUTPUT_DIR" 
+     "--genotypes" "$GENOTYPES" 
+     "--stackreg-passes" "$STACKREG_PASSES" 
+     "--quality-threshold" "$QUALITY_THRESHOLD")
+
+# Only add animals parameter if specified
+if [ ! -z "$ANIMALS" ]; then
+    CMD+=("--animals" "$ANIMALS")
+    echo "Filtering by animals: $ANIMALS"
+else
+    echo "Processing all animals"
+fi
+
+echo "Running command: ${CMD[@]}"
+"${CMD[@]}"
 
 echo "Batch processing complete. Results in $OUTPUT_DIR"
