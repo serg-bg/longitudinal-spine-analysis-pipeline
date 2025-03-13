@@ -1,8 +1,12 @@
+# General
+.DS_Store
+.AppleDouble
+.LSOverride
+
 # Python
 __pycache__/
 *.py[cod]
 *.class
-*.so
 .Python
 env/
 build/
@@ -20,23 +24,17 @@ var/
 .installed.cfg
 *.egg
 
-# Output files
-output/
-*.tif
-*.tiff
-*.png
-*.csv
-
-# Environments
+# Virtual Environments
 .env
 .venv
 env/
 venv/
 ENV/
 
-# IDE
-.idea/
-.vscode/
-*.swp
-*.swo
+# Output
+output/
+*.tif
+*.tiff
+*.csv
+*.png
 
