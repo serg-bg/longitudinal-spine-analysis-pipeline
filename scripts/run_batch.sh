@@ -1,9 +1,12 @@
 #!/bin/bash
 # Run batch processing for spine tracking analysis
 
-# Determine script directory
-SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+# Determine script directory - handle symlinks correctly
+SCRIPT_PATH="$(readlink -f "${BASH_SOURCE[0]}")"
+SCRIPT_DIR="$(dirname "$SCRIPT_PATH")"
 BASE_DIR="$(dirname "$SCRIPT_DIR")"
+
+echo "Script directory: $SCRIPT_DIR"
 
 # Activate the virtual environment
 source "${BASE_DIR}/../.venv/bin/activate"
@@ -55,11 +58,22 @@ mkdir -p "$OUTPUT_DIR"
 
 # Run the batch processing
 PYTHON_SCRIPT="${SCRIPT_DIR}/process_all_segments.py"
+echo "Looking for Python script at: $PYTHON_SCRIPT"
 
 # Verify the script exists
 if [ ! -f "$PYTHON_SCRIPT" ]; then
     echo "Error: Could not find the script at $PYTHON_SCRIPT"
-    exit 1
+    # Try a fallback to the scripts directory directly
+    FALLBACK_SCRIPT="${BASE_DIR}/scripts/process_all_segments.py"
+    echo "Trying fallback path: $FALLBACK_SCRIPT"
+    
+    if [ -f "$FALLBACK_SCRIPT" ]; then
+        echo "Found script at fallback location"
+        PYTHON_SCRIPT="$FALLBACK_SCRIPT"
+    else
+        echo "Error: Could not find script at fallback location either"
+        exit 1
+    fi
 fi
 
 # Execute the script with full path
