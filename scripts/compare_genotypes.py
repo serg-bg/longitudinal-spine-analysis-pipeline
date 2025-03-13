@@ -273,15 +273,17 @@ def create_comparative_plots(density_data, combined_metrics, output_dir):
         ax = sns.lineplot(data=all_density, x='day', y='spine_count_mean', hue='genotype', 
                        marker='o', linewidth=2, markersize=8, palette=colors)
         
-        # Add error bars
+        # Add error bars using SEM instead of SD
         for genotype in all_density['genotype'].unique():
             genotype_data = all_density[all_density['genotype'] == genotype]
+            # Calculate Standard Error of the Mean (SEM)
+            sem = genotype_data['spine_count_std'] / np.sqrt(genotype_data['segment_count'])
             plt.errorbar(genotype_data['day'], genotype_data['spine_count_mean'], 
-                       yerr=genotype_data['spine_count_std'], 
+                       yerr=sem, 
                        fmt='none', capsize=5, ecolor=colors.get(genotype, 'gray'), alpha=0.5)
         
         # Customize plot
-        plt.title('Spine Density Comparison Across Genotypes')
+        plt.title('Spine Density Comparison Across Genotypes (Error bars: SEM)')
         plt.xlabel('Day')
         plt.ylabel('Average Spine Count')
         plt.grid(True, linestyle='--', alpha=0.7)
@@ -320,15 +322,17 @@ def create_comparative_plots(density_data, combined_metrics, output_dir):
         ax = sns.lineplot(data=all_normalized, x='day', y='normalized_density', hue='genotype', 
                        marker='o', linewidth=2, markersize=8, palette=colors)
         
-        # Add error bars
+        # Add error bars using SEM instead of SD
         for genotype in all_normalized['genotype'].unique():
             genotype_data = all_normalized[all_normalized['genotype'] == genotype]
+            # Calculate Standard Error of the Mean (SEM)
+            sem = genotype_data['normalized_std'] / np.sqrt(genotype_data['segment_count'])
             plt.errorbar(genotype_data['day'], genotype_data['normalized_density'], 
-                       yerr=genotype_data['normalized_std'], 
+                       yerr=sem, 
                        fmt='none', capsize=5, ecolor=colors.get(genotype, 'gray'), alpha=0.5)
         
         # Customize plot
-        plt.title('Normalized Spine Density Comparison Across Genotypes')
+        plt.title('Normalized Spine Density Comparison Across Genotypes (Error bars: SEM)')
         plt.xlabel('Day')
         plt.ylabel('Normalized Spine Density (Day 1 = 1.0)')
         plt.grid(True, linestyle='--', alpha=0.7)
@@ -354,15 +358,17 @@ def create_comparative_plots(density_data, combined_metrics, output_dir):
         ax = sns.lineplot(data=all_turnover, x='day_from', y='turnover_ratio_mean', hue='genotype', 
                        marker='o', linewidth=2, markersize=8, palette=colors)
         
-        # Add error bars
+        # Add error bars using SEM instead of SD
         for genotype in all_turnover['genotype'].unique():
             genotype_data = all_turnover[all_turnover['genotype'] == genotype]
+            # Calculate Standard Error of the Mean (SEM)
+            sem = genotype_data['turnover_ratio_std'] / np.sqrt(genotype_data['turnover_ratio_count'])
             plt.errorbar(genotype_data['day_from'], genotype_data['turnover_ratio_mean'], 
-                       yerr=genotype_data['turnover_ratio_std'], 
+                       yerr=sem, 
                        fmt='none', capsize=5, ecolor=colors.get(genotype, 'gray'), alpha=0.5)
         
         # Customize plot
-        plt.title('Spine Turnover Ratio Comparison Across Genotypes')
+        plt.title('Spine Turnover Ratio Comparison Across Genotypes (Error bars: SEM)')
         plt.xlabel('Day')
         plt.ylabel('Average Turnover Ratio')
         plt.grid(True, linestyle='--', alpha=0.7)
@@ -388,15 +394,17 @@ def create_comparative_plots(density_data, combined_metrics, output_dir):
         ax = sns.lineplot(data=all_survival, x='day', y='survival_fraction_mean', hue='genotype', 
                        marker='o', linewidth=2, markersize=8, palette=colors)
         
-        # Add error bars
+        # Add error bars using SEM instead of SD
         for genotype in all_survival['genotype'].unique():
             genotype_data = all_survival[all_survival['genotype'] == genotype]
+            # Calculate Standard Error of the Mean (SEM)
+            sem = genotype_data['survival_fraction_std'] / np.sqrt(genotype_data['survival_fraction_count'])
             plt.errorbar(genotype_data['day'], genotype_data['survival_fraction_mean'], 
-                       yerr=genotype_data['survival_fraction_std'], 
+                       yerr=sem, 
                        fmt='none', capsize=5, ecolor=colors.get(genotype, 'gray'), alpha=0.5)
         
         # Customize plot
-        plt.title('Spine Survival Fraction Comparison Across Genotypes')
+        plt.title('Spine Survival Fraction Comparison Across Genotypes (Error bars: SEM)')
         plt.xlabel('Day')
         plt.ylabel('Average Survival Fraction')
         plt.grid(True, linestyle='--', alpha=0.7)
@@ -458,8 +466,10 @@ def create_dashboard(density_data, combined_metrics, output_dir):
         
         for genotype in all_density['genotype'].unique():
             genotype_data = all_density[all_density['genotype'] == genotype]
+            # Calculate Standard Error of the Mean (SEM)
+            sem = genotype_data['spine_count_std'] / np.sqrt(genotype_data['segment_count'])
             ax1.errorbar(genotype_data['day'], genotype_data['spine_count_mean'], 
-                       yerr=genotype_data['spine_count_std'], 
+                       yerr=sem, 
                        fmt='none', capsize=4, ecolor=colors.get(genotype, 'gray'), alpha=0.5)
         
         ax1.set_title('Absolute Spine Density')
@@ -487,8 +497,10 @@ def create_dashboard(density_data, combined_metrics, output_dir):
         
         for genotype in all_normalized['genotype'].unique():
             genotype_data = all_normalized[all_normalized['genotype'] == genotype]
+            # Calculate Standard Error of the Mean (SEM)
+            sem = genotype_data['normalized_std'] / np.sqrt(genotype_data['segment_count'])
             ax2.errorbar(genotype_data['day'], genotype_data['normalized_density'], 
-                       yerr=genotype_data['normalized_std'], 
+                       yerr=sem, 
                        fmt='none', capsize=4, ecolor=colors.get(genotype, 'gray'), alpha=0.5)
         
         ax2.set_title('Normalized Spine Density')
@@ -508,8 +520,10 @@ def create_dashboard(density_data, combined_metrics, output_dir):
         
         for genotype in all_turnover['genotype'].unique():
             genotype_data = all_turnover[all_turnover['genotype'] == genotype]
+            # Calculate Standard Error of the Mean (SEM)
+            sem = genotype_data['turnover_ratio_std'] / np.sqrt(genotype_data['turnover_ratio_count'])
             ax3.errorbar(genotype_data['day_from'], genotype_data['turnover_ratio_mean'], 
-                       yerr=genotype_data['turnover_ratio_std'], 
+                       yerr=sem, 
                        fmt='none', capsize=4, ecolor=colors.get(genotype, 'gray'), alpha=0.5)
         
         ax3.set_title('Spine Turnover Ratio')
@@ -529,8 +543,10 @@ def create_dashboard(density_data, combined_metrics, output_dir):
         
         for genotype in all_survival['genotype'].unique():
             genotype_data = all_survival[all_survival['genotype'] == genotype]
+            # Calculate Standard Error of the Mean (SEM)
+            sem = genotype_data['survival_fraction_std'] / np.sqrt(genotype_data['survival_fraction_count'])
             ax4.errorbar(genotype_data['day'], genotype_data['survival_fraction_mean'], 
-                       yerr=genotype_data['survival_fraction_std'], 
+                       yerr=sem, 
                        fmt='none', capsize=4, ecolor=colors.get(genotype, 'gray'), alpha=0.5)
         
         ax4.set_title('Spine Survival Fraction')
@@ -540,7 +556,7 @@ def create_dashboard(density_data, combined_metrics, output_dir):
         ax4.legend(title='Genotype')
     
     # Add overall title
-    plt.suptitle('Comprehensive Spine Dynamics Comparison Across Genotypes', fontsize=16)
+    plt.suptitle('Comprehensive Spine Dynamics Comparison Across Genotypes (Error bars: SEM)', fontsize=16)
     
     # Save dashboard
     plt.tight_layout(rect=[0, 0, 1, 0.97])  # Adjust for suptitle
