@@ -1,9 +1,12 @@
 #!/bin/bash
 # Run test for the integrated pipeline
 
-# Determine script directory
-SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+# Determine script directory - handle symlinks correctly
+SCRIPT_PATH="$(readlink -f "${BASH_SOURCE[0]}")"
+SCRIPT_DIR="$(dirname "$SCRIPT_PATH")"
 BASE_DIR="$(dirname "$SCRIPT_DIR")"
+
+echo "Script directory: $SCRIPT_DIR"
 
 # Activate the virtual environment
 source "${BASE_DIR}/../.venv/bin/activate"
@@ -16,7 +19,26 @@ OUTPUT_DIR="${BASE_DIR}/output/test"
 mkdir -p "$OUTPUT_DIR"
 
 # Run the test workflow
-python "${SCRIPT_DIR}/test_workflow.py" \
+PYTHON_SCRIPT="${SCRIPT_DIR}/test_workflow.py"
+echo "Looking for Python script at: $PYTHON_SCRIPT"
+
+# Verify the script exists
+if [ ! -f "$PYTHON_SCRIPT" ]; then
+    echo "Error: Could not find the script at $PYTHON_SCRIPT"
+    # Try a fallback to the scripts directory directly
+    FALLBACK_SCRIPT="${BASE_DIR}/scripts/test_workflow.py"
+    echo "Trying fallback path: $FALLBACK_SCRIPT"
+    
+    if [ -f "$FALLBACK_SCRIPT" ]; then
+        echo "Found script at fallback location"
+        PYTHON_SCRIPT="$FALLBACK_SCRIPT"
+    else
+        echo "Error: Could not find script at fallback location either"
+        exit 1
+    fi
+fi
+
+python "$PYTHON_SCRIPT" \
     --source-dir "$SOURCE_DIR" \
     --output-dir "$OUTPUT_DIR" \
     --stackreg-passes 30 \
